@@ -5,12 +5,14 @@
 clc, clear all
 
 n = 10; % the size of random nxn Hermitian matrix, need to be an integer;
-times = 1; % this is a over all loop to compute mean of errors.
+times = 30; % this is a over all loop to compute mean of errors.
 
 %% the following is to generate random matrix A and vector b then we can solve Ax=b;
+mdiff = zeros(1,n);
 
-diff = zeros(n,times);
-for t=1:times
+for n = 2:40
+diff = zeros(n,times);    
+    for t=1:times
 A = zeros(n, n); % preallocate matrix for computational efficiency;
 q = zeros(n, n);
 b = zeros(n,1);
@@ -66,7 +68,7 @@ end
 T = diag(alpha);
 T = T+ diag(beta(2:length(beta)-1),1);
 T = T+ diag(beta(2:length(beta)-1),-1);
-T
+T;
 
 be = norm(b);
 e1 = zeros(length(T),1);
@@ -75,18 +77,22 @@ e1(1,1) = 1;
 % take out the one-more q
 [r,c] = size(q);
 if c<=n
-    q=zeros(n,n)+q
+    q=zeros(n,n)+q;
 else
-    q = q(:,1:c-1)    
+    q = q(:,1:c-1) ;   
 end
 
-x = q* pinv(T)*be*e1
+x = q* pinv(T)*be*e1;
 toc
 
-x_real=A\b
-diff(:,t)=x_real-x
+x_real=A\b;
+diff(:,t)=x_real-x;
+
+    end
+mdiff(1,n)=mean(diff,"all")    
 end
-mdiff=mean(diff,"all")
+mdiff=abs(mdiff);
+plot(mdiff)
 
 
 
