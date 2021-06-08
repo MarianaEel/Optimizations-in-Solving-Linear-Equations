@@ -1,5 +1,5 @@
 n = 10; % the size of random nxn Hermitian matrix, need to be an integer;
-times = 200; % this is max iteration.
+times = 70; % this is max iteration.
 err=10^(-5);
 %% the following is to generate random matrix A and vector b then we can solve Ax=b;
 
@@ -27,10 +27,14 @@ detA=det(A)
 [x,r]=SteepestDescent(A,b,x,times,err)
 
 r(size(r))
+figure(1)
+hold
 plot(r)
 [xc,rc]=ConjugateGradient(A,b,x,n,err)
-plot(rc)
+figure(2)
 hold
+plot(rc)
+
 realx= A \ b
 xc
 
